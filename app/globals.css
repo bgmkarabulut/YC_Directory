@@ -165,7 +165,7 @@
     @apply w-full h-96 rounded-[22px] bg-zinc-400;
   }
   .category-tag {
-    @apply font-medium text-[16px]  px-4 py-2 rounded-full;
+    @apply font-medium text-[16px] bg-pink-300 px-4 py-2 rounded-full;
   }
   .view_skeleton {
     @apply bg-zinc-400 h-10 w-24 rounded-lg fixed bottom-3 right-3;
@@ -176,6 +176,32 @@
 
   .view-text {
     @apply font-medium text-[16px]  px-4 py-2 rounded-lg capitalize;
+  }
+  .divider {
+    @apply border-dotted bg-zinc-400 max-w-4xl my-10 mx-auto;
+  }
+  .startup-form {
+    @apply max-w-2xl mx-auto bg-white my-10 space-y-8 px-6;
+  }
+
+  .startup-form_label {
+    @apply font-bold text-[18px] text-black uppercase;
+  }
+  .startup-form_input {
+    @apply border-[3px] border-black px-5 py-7 text-[18px] text-black font-semibold rounded-full mt-3;
+  }
+  .startup-form_error {
+    @apply text-red-500 mt-2 ml-5;
+  }
+  .startup-form_textarea {
+    @apply border-[3px] border-black p-5 text-[18px] text-black font-semibold rounded-[20px] mt-3;
+  }
+  .startup-form_editor {
+    @apply mt-3 border-[3px] border-black text-[18px] text-black font-semibold;
+  }
+
+  .startup-form_btn {
+    @apply bg-pink-500 border-[4px] border-black rounded-full p-5 min-h-[70px] w-full font-bold text-[18px];
   }
   .pattern {
     background-image: linear-gradient(
