@@ -1,5 +1,5 @@
 import SerachForm from "@/components/SerachForm";
-import StartupCard, { StartupTypeCard } from "./components/StartupCard";
+import StartupCard, { StartupTypeCard } from "./startup/components/StartupCard";
 
 import { STARTUPS_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";

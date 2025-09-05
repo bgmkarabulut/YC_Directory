@@ -20,7 +20,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (!existingUser) {
         await writeClient.create({
           _type: "author",
-          id,
+          _id: String(id),
           name,
           username: login,
           email,
@@ -45,8 +45,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      Object.assign(session, { id: token.id });
-      return session;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id as string, // ✅ user objesinin içine id eklendi
+        },
+      };
     },
   },
 });
