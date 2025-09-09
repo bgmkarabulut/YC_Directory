@@ -5,8 +5,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Send } from "lucide-react";
 import React, { useActionState, useEffect, useState } from "react";
 import MEditor from "@uiw/react-md-editor";
-import { formSchema } from "@/lib/validation";
-import z from "zod";
 import { useRouter } from "next/navigation";
 import { createPitch } from "@/lib/action";
 import { useToast } from "@/hooks/use-toast";
@@ -125,6 +123,9 @@ const StartupForm = () => {
             disallowedElements: ["style"],
           }}
         />
+
+        {/* 🔑 pitch state’i formData’ya göndermek için */}
+        <input type="hidden" name="pitch" value={pitch} />
         {errors.pitch && <p className="startup-form_error">{errors.pitch}</p>}
       </div>
       <Button

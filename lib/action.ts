@@ -5,23 +5,20 @@ import { parseServerActionResponse } from "@/lib/utils";
 import slugify from "slugify";
 import { writeClient } from "@/sanity/lib/write-client";
 
-export async function createPitch(prevState: any, formData: FormData) {
+export const createPitch = async (state: any, form: FormData) => {
   const session = await auth();
 
-  if (!session) {
+  if (!session)
     return parseServerActionResponse({
       error: "Not signed in",
       status: "ERROR",
     });
-  }
 
-  const title = formData.get("title") as string;
-  const description = formData.get("description") as string;
-  const category = formData.get("category") as string;
-  const link = formData.get("link") as string;
-  const pitch = formData.get("pitch") as string;
+  // 🔹 Artık pitch’i de direkt formData’dan alıyoruz
+  const { title, description, category, link, pitch } =
+    Object.fromEntries(form);
 
-  const slug = slugify(title, { lower: true, strict: true });
+  const slug = slugify(title as string, { lower: true, strict: true });
 
   try {
     const startup = {
@@ -30,7 +27,10 @@ export async function createPitch(prevState: any, formData: FormData) {
       description,
       category,
       image: link,
-      slug: { _type: "slug", current: slug },
+      slug: {
+        _type: "slug",
+        current: slug,
+      },
       author: {
         _type: "reference",
         _ref: session.user.id,
@@ -40,16 +40,17 @@ export async function createPitch(prevState: any, formData: FormData) {
 
     const result = await writeClient.create(startup);
 
-    return {
-      ...result, // içinde _id var
+    return parseServerActionResponse({
+      ...result,
       error: "",
       status: "SUCCESS",
-    };
+    });
   } catch (error) {
-    console.error(error);
-    return {
+    console.error("❌ Sanity create error:", error);
+
+    return parseServerActionResponse({
       error: JSON.stringify(error),
       status: "ERROR",
-    };
+    });
   }
-}
+};
