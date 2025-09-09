@@ -4,7 +4,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
-    serverActions: {},
+    serverActions: {
+      allowedOrigins: ["yc-directory-theta-ten.vercel.app", "localhost:3000"],
+    }, // bunu ekledim 8.09'da bir işe yaramadı sorr
   },
   typescript: {
     ignoreBuildErrors: true,
