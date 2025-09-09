@@ -1,15 +1,16 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
+import React, { useState, useActionState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import MDEditor from "@uiw/react-md-editor";
+import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
-import React, { useActionState, useState } from "react";
-import MEditor from "@uiw/react-md-editor";
 import { formSchema } from "@/lib/validation";
-import z from "zod";
+import { z } from "zod";
+import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { createPitch } from "@/lib/action";
-import { useToast } from "@/hooks/use-toast";
 
 const StartupForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -69,10 +70,12 @@ const StartupForm = () => {
       };
     }
   };
+
   const [state, formAction, isPending] = useActionState(handleFormSubmit, {
     error: "",
     status: "INITIAL",
   });
+
   return (
     <form action={formAction} className="startup-form">
       <div>
@@ -84,8 +87,9 @@ const StartupForm = () => {
           name="title"
           className="startup-form_input"
           required
-          placeholder="Startup title"
+          placeholder="Startup Title"
         />
+
         {errors.title && <p className="startup-form_error">{errors.title}</p>}
       </div>
 
@@ -142,7 +146,8 @@ const StartupForm = () => {
         <label htmlFor="pitch" className="startup-form_label">
           Pitch
         </label>
-        <MEditor
+
+        <MDEditor
           value={pitch}
           onChange={(value) => setPitch(value as string)}
           id="pitch"
@@ -157,8 +162,10 @@ const StartupForm = () => {
             disallowedElements: ["style"],
           }}
         />
+
         {errors.pitch && <p className="startup-form_error">{errors.pitch}</p>}
       </div>
+
       <Button
         type="submit"
         className="startup-form_btn text-white"
@@ -170,4 +177,5 @@ const StartupForm = () => {
     </form>
   );
 };
+
 export default StartupForm;
