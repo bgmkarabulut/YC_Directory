@@ -1,19 +1,13 @@
 "use client";
 
 import { useActionState } from "react";
-
-async function echoAction(prev: any, formData: FormData) {
-  "use server";
-  console.log("🔥 Server action çalıştı!");
-  return { ok: true };
-}
-
+import { echoAction } from "./actions/Echo";
 export default function TestPage() {
-  const [state, action, pending] = useActionState(echoAction, { ok: false });
+  const [state, formAction] = useActionState(echoAction, null);
 
   return (
-    <form action={action}>
-      <button type="submit">{pending ? "..." : "Deneme"}</button>
+    <form action={formAction}>
+      <button type="submit">Submit</button>
     </form>
   );
 }
