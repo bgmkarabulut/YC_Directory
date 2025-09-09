@@ -5,7 +5,11 @@ import { parseServerActionResponse } from "@/lib/utils";
 import slugify from "slugify";
 import { writeClient } from "@/sanity/lib/write-client";
 
-export const createPitch = async (state: any, form: FormData) => {
+export const createPitch = async (
+  state: any,
+  form: FormData,
+  pitch: string
+) => {
   const session = await auth();
 
   if (!session)
@@ -14,15 +18,14 @@ export const createPitch = async (state: any, form: FormData) => {
       status: "ERROR",
     });
 
-  // 🔹 Artık pitch’i de direkt formData’dan alıyoruz
-  const { title, description, category, link, pitch } =
-    Object.fromEntries(form);
+  const { title, description, category, link } = Object.fromEntries(
+    Array.from(form).filter(([key]) => key !== "pitch")
+  );
 
   const slug = slugify(title as string, { lower: true, strict: true });
 
   try {
     const startup = {
-      _type: "startup",
       title,
       description,
       category,
@@ -38,7 +41,7 @@ export const createPitch = async (state: any, form: FormData) => {
       pitch,
     };
 
-    const result = await writeClient.create(startup);
+    const result = await writeClient.create({ _type: "startup", ...startup });
 
     return parseServerActionResponse({
       ...result,
@@ -46,7 +49,7 @@ export const createPitch = async (state: any, form: FormData) => {
       status: "SUCCESS",
     });
   } catch (error) {
-    console.error("❌ Sanity create error:", error);
+    console.log(error);
 
     return parseServerActionResponse({
       error: JSON.stringify(error),
